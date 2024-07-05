@@ -6,7 +6,7 @@ const createProductController = async (req: Request, res: Response) => {
   const productData = req.body;
   const { error } = productZodSchema.safeParse(productData);
   if (error) {
-    return res.status(500).json({ message: error.errors });
+    return res.status(500).json({ success: false, message: "Can't create products", error: error.errors });
   } else {
     try {
       const productResult = await productServices.createProductToDb(productData);

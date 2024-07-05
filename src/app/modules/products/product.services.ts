@@ -24,7 +24,9 @@ const deleteOneProductFromDb = async (productId: string) => {
   return result;
 };
 const searchProductFromDb = async (searchTerm: string) => {
-  const result = await ProductModel.find({ name: { $regex: searchTerm, $options: 'i' } });
+  const result = await ProductModel.find({
+    name: { $regex: searchTerm, $options: 'i' },
+  });
 
   return result;
 };
