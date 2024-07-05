@@ -28,7 +28,9 @@ const getAllProductController = async (req: Request, res: Response) => {
         data: productResult,
       });
     } catch (err) {
-      res.status(500).send({ success: false, message: "Can't create products", error: err });
+      res
+        .status(500)
+        .send({ success: false, message: `Can't search products for this search term ${searchTerm}`, error: err });
     }
   } else {
     try {
@@ -36,7 +38,7 @@ const getAllProductController = async (req: Request, res: Response) => {
 
       res.status(201).send({ success: true, message: 'Products fetched successfully!', data: productResult });
     } catch (err) {
-      res.status(500).send({ success: false, message: "Can't create products", error: err });
+      res.status(500).send({ success: false, message: 'Products can not fetched successfully', error: err });
     }
   }
 };
@@ -46,7 +48,7 @@ const getOneProductController = async (req: Request, res: Response) => {
     const productResult = await productServices.getOneProductFromDb(productId);
     res.status(201).send({ success: true, message: 'Product fetched successfully!', data: productResult });
   } catch (err) {
-    res.status(500).send({ success: false, message: "Can't create products", error: err });
+    res.status(500).send({ success: false, message: 'Can not get the single product', error: err });
   }
 };
 const updateOneProductController = async (req: Request, res: Response) => {
@@ -57,7 +59,7 @@ const updateOneProductController = async (req: Request, res: Response) => {
 
     res.status(201).send({ success: true, message: 'Product updated successfully!', data: productResult });
   } catch (err) {
-    res.status(500).send({ success: false, message: "Can't create products", error: err });
+    res.status(500).send({ success: false, message: 'Product can not be updated', error: err });
   }
 };
 const deleteOneProductController = async (req: Request, res: Response) => {
@@ -67,7 +69,7 @@ const deleteOneProductController = async (req: Request, res: Response) => {
 
     res.status(201).send({ success: true, message: 'Product deleted successfully!', data: productResult });
   } catch (err) {
-    res.status(500).send({ success: false, message: "Can't create products", error: err });
+    res.status(500).send({ success: false, message: 'Product can not be deleted now', error: err });
   }
 };
 
