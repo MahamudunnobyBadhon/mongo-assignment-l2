@@ -12,4 +12,12 @@ app.get('/', (req: Request, res: Response) => {
   const a = 10;
   res.send(a);
 });
+const notFound = (req: Request, res: Response) => {
+  return res.status(500).json({
+    success: false,
+    message: 'API Not Found !!',
+    error: '',
+  });
+};
+app.use(notFound);
 export default app;
