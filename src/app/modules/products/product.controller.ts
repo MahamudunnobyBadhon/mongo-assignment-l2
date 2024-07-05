@@ -8,40 +8,67 @@ const createProductController = async (req: Request, res: Response) => {
   if (error) {
     return res.status(500).json({ message: error.errors });
   } else {
-    const productResult = await productServices.createProductToDb(productData);
-    res.status(201).send(productResult);
+    try {
+      const productResult = await productServices.createProductToDb(productData);
+      res.status(201).send({ success: true, message: 'Product created successfully!', data: productResult });
+    } catch (err) {
+      res.status(500).send({ success: false, message: "Can't create products", error: err });
+    }
   }
 };
 
 const getAllProductController = async (req: Request, res: Response) => {
   const { searchTerm } = req.query as { searchTerm: string };
   if (searchTerm) {
-    const productResult = await productServices.searchProductFromDb(searchTerm);
-    res.status(200).send(productResult);
+    try {
+      const productResult = await productServices.searchProductFromDb(searchTerm);
+      res.status(201).send({
+        success: true,
+        message: `Products matching search term ${searchTerm} fetched successfully!`,
+        data: productResult,
+      });
+    } catch (err) {
+      res.status(500).send({ success: false, message: "Can't create products", error: err });
+    }
   } else {
-    const productResult = await productServices.getAllProductFromDb();
+    try {
+      const productResult = await productServices.getAllProductFromDb();
 
-    res.status(201).send(productResult);
+      res.status(201).send({ success: true, message: 'Products fetched successfully!', data: productResult });
+    } catch (err) {
+      res.status(500).send({ success: false, message: "Can't create products", error: err });
+    }
   }
 };
 const getOneProductController = async (req: Request, res: Response) => {
-  const { productId } = req.params;
-  const productResult = await productServices.getOneProductFromDb(productId);
-
-  res.status(201).send(productResult);
+  try {
+    const { productId } = req.params;
+    const productResult = await productServices.getOneProductFromDb(productId);
+    res.status(201).send({ success: true, message: 'Product fetched successfully!', data: productResult });
+  } catch (err) {
+    res.status(500).send({ success: false, message: "Can't create products", error: err });
+  }
 };
 const updateOneProductController = async (req: Request, res: Response) => {
-  const productData = req.body;
-  const { productId } = req.params;
-  const productResult = await productServices.updateOneProductFromDb(productId, productData);
+  try {
+    const productData = req.body;
+    const { productId } = req.params;
+    const productResult = await productServices.updateOneProductFromDb(productId, productData);
 
-  res.status(201).send(productResult);
+    res.status(201).send({ success: true, message: 'Product updated successfully!', data: productResult });
+  } catch (err) {
+    res.status(500).send({ success: false, message: "Can't create products", error: err });
+  }
 };
 const deleteOneProductController = async (req: Request, res: Response) => {
-  const { productId } = req.params;
-  const productResult = await productServices.deleteOneProductFromDb(productId);
+  try {
+    const { productId } = req.params;
+    const productResult = await productServices.deleteOneProductFromDb(productId);
 
-  res.status(201).send(productResult);
+    res.status(201).send({ success: true, message: 'Product deleted successfully!', data: productResult });
+  } catch (err) {
+    res.status(500).send({ success: false, message: "Can't create products", error: err });
+  }
 };
 
 export const productControllers = {
